@@ -24,7 +24,7 @@ public class LongPollingChatService {
     private final Map<String, List<DeferredResult<List<ChatMessageDto>>>> waitingClients = new ConcurrentHashMap<>();
     private final ChatMessageRepository chatMessageRepository;
 
-    @Value("chat.long-polling.timeout")
+    @Value("${chat.long-polling.timeout}")
     private long pollingTimeoutMillis;
 
     public DeferredResult<List<ChatMessageDto>> waitForNewMessages(String roomId, Long lastMessageId){
