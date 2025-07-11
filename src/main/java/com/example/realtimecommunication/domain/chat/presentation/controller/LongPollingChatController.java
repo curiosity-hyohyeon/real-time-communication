@@ -13,7 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/chat")
 @RequiredArgsConstructor
-public class PollingPolingChatController {
+public class LongPollingChatController {
     private final LongPollingChatService longPolingChatService;
 
     @GetMapping("/long-poling-subscribe")
