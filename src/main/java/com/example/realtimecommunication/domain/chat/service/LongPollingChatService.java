@@ -36,10 +36,13 @@ public class LongPollingChatService {
             clientsList.add(deferred);
         }
 
-        deferred.onTimeout(() ->
+        deferred.onCompletion(() ->
         {
             synchronized (clientsList){
                 clientsList.remove(deferred);
+                if(clientsList.isEmpty()){
+                    waitingClients.remove(roomId);
+                }
             }
         });
 
