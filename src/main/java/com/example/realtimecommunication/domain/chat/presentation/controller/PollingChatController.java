@@ -3,6 +3,7 @@ package com.example.realtimecommunication.domain.chat.presentation.controller;
 import com.example.realtimecommunication.domain.chat.domain.ChatMessage;
 import com.example.realtimecommunication.domain.chat.presentation.dto.ChatMessageDto;
 import com.example.realtimecommunication.domain.chat.service.PollingChatService;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
