@@ -4,7 +4,9 @@ import com.example.realtimecommunication.domain.chat.domain.ChatMessage;
 import com.example.realtimecommunication.domain.chat.domain.repository.ChatMessageRepository;
 import com.example.realtimecommunication.domain.chat.presentation.dto.ChatMessageDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.async.DeferredResult;
 
 import java.time.LocalDateTime;
@@ -22,6 +24,9 @@ public class LongPollingChatService {
     private final Map<String, List<DeferredResult<List<ChatMessageDto>>>> waitingClients = new ConcurrentHashMap<>();
     private final ChatMessageRepository chatMessageRepository;
 
+    @Value("chat.long-polling.timeout")
+    private long pollingTimeoutMillis;
+
     public DeferredResult<List<ChatMessageDto>> waitForNewMessages(String roomId, Long lastMessageId){
         List<ChatMessageDto> newMessages = getNewMessage(roomId, lastMessageId); //lastMessageId 이후로 새로운 메세지를 조회
 
@@ -29,7 +34,7 @@ public class LongPollingChatService {
             return immediateResult(newMessages); //새로운 메세지가 존재한다면, 바로 반환
         }
 
-        DeferredResult<List<ChatMessageDto>> deferred = new DeferredResult<>(30_000L, Collections.emptyList()); //새로운 메세지가 없다면, 30초 동안 응답을 보류, 타임 아윳 시 빈 리스트 반환
+        DeferredResult<List<ChatMessageDto>> deferred = new DeferredResult<>(pollingTimeoutMillis, Collections.emptyList()); //새로운 메세지가 없다면, 30초 동안 응답을 보류, 타임 아윳 시 빈 리스트 반환
 
         List<DeferredResult<List<ChatMessageDto>>> clientsList = getClientList(roomId);
         synchronized (clientsList){
@@ -71,11 +76,7 @@ public class LongPollingChatService {
         }
 
         for (DeferredResult<List<ChatMessageDto>> client : clientsToNotify) {
-            try {
-                client.setResult(dtoList);
-            } catch (Exception e) {
-                throw e;
-            }
+            client.setResult(dtoList);
         }
     }
 
@@ -102,6 +103,7 @@ public class LongPollingChatService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public void saveMessage(ChatMessage message){
         ChatMessage saved = chatMessageRepository.save(
                 ChatMessage.builder()
