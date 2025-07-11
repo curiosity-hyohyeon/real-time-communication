@@ -16,7 +16,7 @@ public class PollingChatController {
 
     @GetMapping("/polling-message")
     public List<ChatMessageDto> getMessage(
-            @RequestParam String roomId,
+            @RequestParam @NotBlank(message = "Room ID is required") String roomId,
             @RequestParam(defaultValue = "0") Long lastMessageId
     ){
         return pollingChatService.getNewMessage(roomId, lastMessageId);
