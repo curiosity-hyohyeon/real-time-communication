@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class LongPolingChatService {
+public class LongPollingChatService {
 
     private final Map<String, List<DeferredResult<List<ChatMessageDto>>>> waitingClients = new ConcurrentHashMap<>();
     private final ChatMessageRepository chatMessageRepository;

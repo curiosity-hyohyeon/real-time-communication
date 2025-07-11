@@ -2,7 +2,7 @@ package com.example.realtimecommunication.domain.chat.presentation.controller;
 
 import com.example.realtimecommunication.domain.chat.domain.ChatMessage;
 import com.example.realtimecommunication.domain.chat.presentation.dto.ChatMessageDto;
-import com.example.realtimecommunication.domain.chat.service.LongPolingChatService;
+import com.example.realtimecommunication.domain.chat.service.LongPollingChatService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,8 +13,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/chat")
 @RequiredArgsConstructor
-public class LongPolingChatController {
-    private final LongPolingChatService longPolingChatService;
+public class PollingPolingChatController {
+    private final LongPollingChatService longPolingChatService;
 
     @GetMapping("/long-poling-subscribe")
     public DeferredResult<List<ChatMessageDto>> subscribe(

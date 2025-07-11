@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class PolingChatService {
+public class PollingChatService {
     private final ChatMessageRepository chatMessageRepository;
 
     public List<ChatMessageDto> getNewMessage(String roomId, Long lastMessageId){
