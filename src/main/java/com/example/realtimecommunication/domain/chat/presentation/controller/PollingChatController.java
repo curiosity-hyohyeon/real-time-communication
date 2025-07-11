@@ -12,18 +12,18 @@ import java.util.List;
 @RequestMapping("/chat")
 @RequiredArgsConstructor
 public class PollingChatController {
-    private final PollingChatService polingChatService;
+    private final PollingChatService pollingChatService;
 
-    @GetMapping("/poling-message")
+    @GetMapping("/polling-message")
     public List<ChatMessageDto> getMessage(
             @RequestParam String roomId,
             @RequestParam(defaultValue = "0") Long lastMessageId
     ){
-        return polingChatService.getNewMessage(roomId, lastMessageId);
+        return pollingChatService.getNewMessage(roomId, lastMessageId);
     }
 
     @PostMapping("/send")
     public void sendMessage(@RequestBody ChatMessage message) {
-        polingChatService.saveMessage(message);
+        pollingChatService.saveMessage(message);
     }
 }

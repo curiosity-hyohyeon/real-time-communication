@@ -14,19 +14,19 @@ import java.util.List;
 @RequestMapping("/chat")
 @RequiredArgsConstructor
 public class LongPollingChatController {
-    private final LongPollingChatService longPolingChatService;
+    private final LongPollingChatService longPollingChatService;
 
-    @GetMapping("/long-poling-subscribe")
+    @GetMapping("/long-polling-subscribe")
     public DeferredResult<List<ChatMessageDto>> subscribe(
             @RequestParam String roomId,
             @RequestParam(defaultValue = "0") Long lastMessageId
     ){
-        return longPolingChatService.waitForNewMessages(roomId, lastMessageId);
+        return longPollingChatService.waitForNewMessages(roomId, lastMessageId);
     }
 
-    @PostMapping("/long-poling-send")
+    @PostMapping("/long-polling-send")
     public ResponseEntity<Void> sendMessage(@RequestBody ChatMessage message){
-        longPolingChatService.saveMessage(message);
+        longPollingChatService.saveMessage(message);
         return ResponseEntity.ok().build();
     }
 
