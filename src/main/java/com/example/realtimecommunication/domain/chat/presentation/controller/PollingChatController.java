@@ -2,7 +2,8 @@ package com.example.realtimecommunication.domain.chat.presentation.controller;
 
 import com.example.realtimecommunication.domain.chat.domain.ChatMessage;
 import com.example.realtimecommunication.domain.chat.presentation.dto.ChatMessageDto;
-import com.example.realtimecommunication.domain.chat.service.PolingChatService;
+import com.example.realtimecommunication.domain.chat.service.PollingChatService;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,19 +12,19 @@ import java.util.List;
 @RestController
 @RequestMapping("/chat")
 @RequiredArgsConstructor
-public class PolingChatController {
-    private final PolingChatService polingChatService;
+public class PollingChatController {
+    private final PollingChatService pollingChatService;
 
-    @GetMapping("/poling-message")
+    @GetMapping("/polling-message")
     public List<ChatMessageDto> getMessage(
-            @RequestParam String roomId,
+            @RequestParam @NotBlank(message = "Room ID is required") String roomId,
             @RequestParam(defaultValue = "0") Long lastMessageId
     ){
-        return polingChatService.getNewMessage(roomId, lastMessageId);
+        return pollingChatService.getNewMessage(roomId, lastMessageId);
     }
 
     @PostMapping("/send")
     public void sendMessage(@RequestBody ChatMessage message) {
-        polingChatService.saveMessage(message);
+        pollingChatService.saveMessage(message);
     }
 }
