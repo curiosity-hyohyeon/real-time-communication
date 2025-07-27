@@ -36,4 +36,13 @@ public class ChatMessage {
     public void setTimestamp(){
         this.timestamp = LocalDateTime.now();
     }
+
+    public static ChatMessage save(String roomId, String sender, String content){
+        return ChatMessage.builder()
+                .roomId(roomId)
+                .sender(sender)
+                .content(content)
+                .timestamp(LocalDateTime.now())
+                .build();
+    }
 }

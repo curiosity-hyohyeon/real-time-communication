@@ -1,11 +1,11 @@
-package com.example.realtimecommunication.domain.chat.presentation.dto;
+package com.example.realtimecommunication.domain.chat.dto;
 
 import lombok.Builder;
 
 import java.time.LocalDateTime;
 
 @Builder
-public record ChatMessageDto(
+public record ChatMessageResponseDto(
         Long id,
         String sender,
         String content,
