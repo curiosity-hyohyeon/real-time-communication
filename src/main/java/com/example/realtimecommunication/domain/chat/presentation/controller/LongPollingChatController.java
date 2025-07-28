@@ -23,12 +23,12 @@ public class LongPollingChatController {
             @RequestParam @NotBlank(message = "Room ID is required") String roomId,
             @RequestParam(defaultValue = "0") Long lastMessageId
     ){
-        return longPollingChatService.waitForNewMessages(roomId, lastMessageId);
+        return longPollingChatService.waitForNewMessage(roomId, lastMessageId);
     }
 
     @PostMapping("/long-polling-send")
     public void sendMessage(@RequestBody ChatMessageRequestDto message){
-        longPollingChatService.saveMessage(message);
+        longPollingChatService.handleNewMessage(message);
     }
 
 }
