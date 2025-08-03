@@ -21,14 +21,12 @@ public class ServerSentEventManager {
         emitter.onCompletion(() -> removeEmitter(roomId, emitter));
         emitter.onTimeout(() -> removeEmitter(roomId, emitter));
 
-        System.out.println("LOG : "+ emitterMap);
         return emitter;
     }
 
 
     //해당 방에 존재하는 emitter 가져오기
     public List<SseEmitter> getEmitter(String roomId){
-        System.out.println("LOG : "+emitterMap.getOrDefault(roomId, new CopyOnWriteArrayList<>()));
         return emitterMap.getOrDefault(roomId, new CopyOnWriteArrayList<>());
     }
 
