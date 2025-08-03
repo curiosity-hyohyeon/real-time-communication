@@ -20,6 +20,7 @@ public class ServerSentEventManager {
 
         emitter.onCompletion(() -> removeEmitter(roomId, emitter));
         emitter.onTimeout(() -> removeEmitter(roomId, emitter));
+        emitter.onError(error -> removeEmitter(roomId, emitter));
 
         return emitter;
     }
@@ -27,7 +28,7 @@ public class ServerSentEventManager {
 
     //해당 방에 존재하는 emitter 가져오기
     public List<SseEmitter> getEmitter(String roomId){
-        return emitterMap.getOrDefault(roomId, new CopyOnWriteArrayList<>());
+        return emitterMap.getOrDefault(roomId,List.of());
     }
 
     public void removeEmitter(String roomId, SseEmitter emitter){
