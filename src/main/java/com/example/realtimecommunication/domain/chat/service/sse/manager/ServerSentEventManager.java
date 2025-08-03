@@ -31,12 +31,9 @@ public class ServerSentEventManager {
     }
 
     public void removeEmitter(String roomId, SseEmitter emitter){
-        List<SseEmitter> emitters = emitterMap.get(roomId);
-        if(emitters != null){ //해당 방이 null이 아니라면
-            emitters.remove(emitter); //해당 사용자만 제거
-            if (emitters.isEmpty()){ //해당 방이 비어있다면
-                emitterMap.remove(roomId); //해당 방 제거
-            }
-        }
+        emitterMap.computeIfPresent(roomId, (key, emitters) -> {
+            emitters.remove(emitter);
+            return emitters.isEmpty() ? null : emitters; //비어있으면 null 반환 → 맵에서 키 제거
+        });
     }
 }
